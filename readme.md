@@ -5,5 +5,5 @@
 
 При пулл реквесте в *master* происходит прогон тестов, описанных в [тут](.github/workflows/python-app.yml).
 
-Пуш в мастер запрещен. В мастер можно фигачить только через *pull request*
+Пуш в мастер запрещен. В мастер можно фигачить только через *pull request*. Настройка этой опции [тут](https://github.com/koshi8bit/py-ci-cd/settings/branches)
 
