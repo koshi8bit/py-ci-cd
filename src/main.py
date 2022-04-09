@@ -9,7 +9,7 @@ def index():
         "long_line long_line long_line " \
         "long_line long_line long_line long_line long_line "
     print(a)
-    return "Hello world1"
+    return "Hello world"
 
 
 @app.route("/api/v1/foo")
