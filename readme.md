@@ -16,5 +16,7 @@
   - Запаковка кода в докер контейнер
   - Пуш в dockerhub
 
-
+## Источники
+- [Actions](https://youtu.be/WTofttoD2xg?t=82)
+- [Docker + Actions](https://youtu.be/09lZdSpeHAk?t=80)
 
