@@ -36,6 +36,8 @@ jobs:
     - name: Build docker
       env:
         DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
+        echo $DOCKER_CONTAINER_NAME
+        echo "$PWD" 
         docker build -t $DOCKER_CONTAINER_NAME .
