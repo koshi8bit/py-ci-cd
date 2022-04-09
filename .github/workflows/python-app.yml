@@ -42,5 +42,7 @@ jobs:
         echo "123"
         echo $DOCKER_CONTAINER_NAME
         echo "$DOCKER_CONTAINER_NAME"
+        echo $DDARFA
+        echo "$DDARFA"
         echo "456"
         docker build -t $DOCKER_CONTAINER_NAME .
