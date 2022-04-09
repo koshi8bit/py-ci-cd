@@ -36,13 +36,9 @@ jobs:
     - name: Build docker
       env:
         DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+        $DOCKER_USER: ${{ secrets.$DOCKER_USER }}
+        $DOCKER_PASS: ${{ secrets.$DOCKER_PASS }}
       # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        echo "$PWD" 
-        echo "123"
-        echo $DOCKER_CONTAINER_NAME
-        echo "$DOCKER_CONTAINER_NAME"
-        echo $DDARFA
-        echo "$DDARFA"
-        echo "456"
-        docker build -t $DOCKER_CONTAINER_NAME .
+        docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME .
+        docker login -u $DOCKER_USER -p $DOCKER_PASS
