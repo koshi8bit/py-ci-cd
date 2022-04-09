@@ -41,5 +41,6 @@ jobs:
         echo "$PWD" 
         echo "123"
         echo $DOCKER_CONTAINER_NAME
+        echo "$DOCKER_CONTAINER_NAME"
         echo "456"
         docker build -t $DOCKER_CONTAINER_NAME .
