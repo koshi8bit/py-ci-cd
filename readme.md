@@ -20,4 +20,5 @@
 - [Actions](https://youtu.be/WTofttoD2xg?t=82)
 - [Docker + Actions](https://youtu.be/09lZdSpeHAk?t=80)
 - [Actions на русском](https://youtu.be/hevU4NdIsoU)
+- [Gitlab docker](https://youtu.be/RV0845KmsNI)
 
