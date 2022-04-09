@@ -33,3 +33,9 @@ jobs:
     - name: Test with pytest
       run: |
         python -m unittest tests/test_app.py
+    - name: Build docker
+      env:
+        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      run: |
+        docker build -t $DOCKER_CONTAINER_NAME .
