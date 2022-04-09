@@ -36,6 +36,10 @@ jobs:
     - name: Build docker
       env:
         DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        docker build -t $DOCKER_CONTAINER_NAME .
+        docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME .
+        docker login -u $DOCKER_USER -p $DOCKER_PASS
+        docker push $DOCKER_USER/$DOCKER_CONTAINER_NAME
