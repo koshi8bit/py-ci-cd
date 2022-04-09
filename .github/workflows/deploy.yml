@@ -1,4 +1,4 @@
-name: My python app
+name: Tests and deploy
 # https://stackoverflow.com/questions/8466223/reuse-a-block-of-code-in-yaml
 on: [push]
 #on:
@@ -55,3 +55,32 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker push $DOCKER_USER/$DOCKER_CONTAINER_NAME
+    - name: Docker create locally
+      env:
+        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      run: |
+        docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME -o $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar
+        echo "$PWD"
+        echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ls -a
+    - name: Configure SSH priv key
+      env:
+        SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
+      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      run: |
+        set -eu
+        mkdir "$HOME/.ssh"
+        echo "${{ secrets.key }}" > "$HOME/.ssh/key"
+        chmod 600 "$HOME/.ssh/key"
+    - name: Send to serv
+      env:
+        SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
+        SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
+        SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
+      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      run: |
+        rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar $SERVER_SSH_USER@$SERVER_ADDRES:/home/admin/back
+        
