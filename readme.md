@@ -1,7 +1,7 @@
 # py-ci-cd
 ![example workflow](https://github.com/koshi8bit/py-ci-cd/actions/workflows/python-app.yml/badge.svg)
 
-Настройка CI CD для проекта на питоне
+Настройка CI CD для проекта на питоне в github
 
 Пуш в мастер запрещен. В мастер можно фигачить только через *pull request*. Настройка этой опции
 [тут](https://github.com/koshi8bit/py-ci-cd/settings/branches)
@@ -12,8 +12,9 @@
 - Установка всех зависимостей из requirements.txt
 - Проверка синтаксиса кода по PEP8 при помощи flake8
 - Запуск тестов
-- Запаковка кода в докер контейнер
-- Пуш в dockerhub
+- Если текущая ветка - мастер и все шаги выше пройдены, тогда:
+  - Запаковка кода в докер контейнер
+  - Пуш в dockerhub
 
 
 
