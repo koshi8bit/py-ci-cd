@@ -11,5 +11,10 @@ def index():
     return "Hello world"
 
 
+@app.route("/api/v1/foo")
+def api_v1_foo():
+    return "bar"
+
+
 if __name__ == '__main__':
     app.run()
