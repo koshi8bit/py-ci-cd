@@ -28,7 +28,7 @@ jobs:
       with:
         ignore: "F401"
         # exclude: "src/ignoreme.py"
-        max-line-length: "100"
+        max-line-length: "120"
         path: "src"
     - name: Test with pytest
       run: |

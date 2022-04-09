@@ -4,7 +4,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    a = "fafakjaljdfjkdsjfsdjfjsdfklsdfasfjdfjsgljsfgljdflgdkfgjdkfgldkfgkdfklgjldfjgkldjklfgjdklfjgkdjflkgldkfgjkldfjgkdlfgdkfgldkfjgldkfjgkldfjgkld"
+    a = "short fafakjaljdfjkdsjfsdjfjsdfklsdfasfjdfjsgljsfgljdflgdkfgjdkfgldkfgkdfklgjldfjgkldjklfgjdklfjgkdjflkgldkf" \
+        "gjkldfjgkdlfgdkfgldkfjgldkfjgkldfjgkld"
     print(a)
     return "Hello world"
 
