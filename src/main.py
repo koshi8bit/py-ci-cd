@@ -12,6 +12,11 @@ def index():
     return "Hello world"
 
 
+@app.route('/foo', methods=['GET'])
+def foo():
+    return "bar2!"
+
+
 @app.route("/api/v1/foo")
 def api_v1_foo():
     return "bar"
