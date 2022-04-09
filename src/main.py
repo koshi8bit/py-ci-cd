@@ -6,7 +6,7 @@ app = Flask(__name__)
 def index():
     a = "fafakjaljdfjkdsjfsdjfjsdfklsdfasfjdfjsgljsfgljdflgdkfgjdkfgldkfgkdfklgjldfjgkldjklfgjdklfjgkdjflkgldkfgjkldfjgkdlfgdkfgldkfjgldkfjgkldfjgkld"
     print(a)
-    return "Hello world1"
+    return "Hello world"
 
 
 if __name__ == '__main__':
