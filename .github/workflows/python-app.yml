@@ -42,3 +42,4 @@ jobs:
       run: |
         docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME .
         docker login -u $DOCKER_USER -p $DOCKER_PASS
+        docker push $DOCKER_USER/$DOCKER_CONTAINER_NAME
