@@ -81,5 +81,6 @@ jobs:
         SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
       # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
+        ls -l
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers
         
