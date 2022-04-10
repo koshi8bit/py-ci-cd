@@ -85,6 +85,6 @@ jobs:
       # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         ls -l
-        python ./src/test11.py
+        python ./src/test11.py SERVER_SSH_PRIV_KEY SERVER_SSH_USER SERVER_ADDRES DOCKER_USER DOCKER_CONTAINER_NAME
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers
         
