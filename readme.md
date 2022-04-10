@@ -6,7 +6,7 @@
 Пуш в мастер запрещен. В мастер можно фигачить только через *pull request*. Настройка этой опции
 [тут](https://github.com/koshi8bit/py-ci-cd/settings/branches)
 
-При пулл реквесте в *master* происходит прогон пайплайна, описанного [тут](.github/workflows/python-app.yml).
+При пулл реквесте в *master* происходит прогон пайплайна, описанного [тут](.github/workflows/deploy.yml).
 В него входит
 - Инициализация нужной версии python
 - Установка всех зависимостей из requirements.txt
