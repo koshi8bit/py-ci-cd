@@ -39,33 +39,33 @@ jobs:
     - name: Test with pytest
       run: |
         python -m unittest tests/test_app.py
-    - name: Docker build
-      env:
-        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      # if: github.ref == 'refs/heads/master' && job.status == 'success'
-      run: |
-        docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME .
-    - name: Docker push
-      env:
-        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      # if: github.ref == 'refs/heads/master' && job.status == 'success'
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASS
-        docker push $DOCKER_USER/$DOCKER_CONTAINER_NAME
-    - name: Docker create locally
-      env:
-        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      # if: github.ref == 'refs/heads/master' && job.status == 'success'
-      run: |
-        docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME -o $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar
-        echo "$PWD"
-        echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        ls -a
+#    - name: Docker build
+#      env:
+#        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+#        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+#      # if: github.ref == 'refs/heads/master' && job.status == 'success'
+#      run: |
+#        docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME .
+#    - name: Docker push
+#      env:
+#        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+#        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+#        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+#      # if: github.ref == 'refs/heads/master' && job.status == 'success'
+#      run: |
+#        docker login -u $DOCKER_USER -p $DOCKER_PASS
+#        docker push $DOCKER_USER/$DOCKER_CONTAINER_NAME
+#    - name: Docker create locally
+#      env:
+#        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+#        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+#        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+#      # if: github.ref == 'refs/heads/master' && job.status == 'success'
+#      run: |
+#        docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME -o $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar
+#        echo "$PWD"
+#        echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+#        ls -a
     - name: Configure SSH priv key
       env:
         SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
@@ -73,7 +73,7 @@ jobs:
       run: |
         set -eu
         mkdir "$HOME/.ssh"
-        echo "${{ secrets.key }}" > "$HOME/.ssh/key"
+        echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
     - name: Send to serv
       env:
@@ -85,6 +85,7 @@ jobs:
         echo "$PWD"
         echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ls -a
-        scp -r -i /home/admin/.ssh/key $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar $SERVER_SSH_USER@$SERVER_ADDRES:/home/admin/dockers
+        scp -r -i /home/admin/.ssh/key requirements.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/admin/dockers
+#        scp -r -i /home/admin/.ssh/key $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar $SERVER_SSH_USER@$SERVER_ADDRES:/home/admin/dockers
 #        rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar $SERVER_SSH_USER@$SERVER_ADDRES:/home/admin/back
         
