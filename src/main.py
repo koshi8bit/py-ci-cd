@@ -13,9 +13,7 @@ def index():
 
 @app.route("/api/v1/foo")
 def api_v1_foo():
-    l = "13"
-    print(l)
-    return "bar SEXY 777"
+    return "bar SEXY 999"
 
 
 if __name__ == '__main__':
