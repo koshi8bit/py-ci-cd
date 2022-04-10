@@ -1,6 +1,5 @@
 import os
-# a = ['SERVER_SSH_PRIV_KEY', 'SERVER_SSH_USER', 'SERVER_ADDRES']
-a = ['path', 'SERVER_SSH_USER', 'SERVER_ADDRES']
+a = ['SERVER_SSH_PRIV_KEY', 'SERVER_SSH_USER', 'SERVER_ADDRES']
 # exit()
 sep = "\n"
 for b in a:
