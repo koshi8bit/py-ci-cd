@@ -84,6 +84,10 @@ jobs:
       run: |
         echo "$PWD"
         echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        echo "$HOME"
+        echo "bbbbbbbbbbbbbbbbbbbbbb"
+        cat "$HOME/.ssh/key"
+        echo "cccccccccccccccccccccc"
         ls -a
         scp -r -i /home/admin/.ssh/key requirements.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/admin/dockers
 #        scp -r -i /home/admin/.ssh/key $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar $SERVER_SSH_USER@$SERVER_ADDRES:/home/admin/dockers
