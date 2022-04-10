@@ -8,7 +8,7 @@ for b in a:
         lines = val.split(sep)
         print(lines)
         lines = list(map(lambda x: x[:-1], lines))
-        for l in lines:
-            print(l)
+        for line in lines:
+            print(line)
     else:
         print(os.environ[b][:-1])
