@@ -65,7 +65,7 @@ jobs:
         mkdir "$HOME/.ssh"
         echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
-    - name: Create locally, send to serv
+    - name: Create locally
       env:
         SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
         SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
@@ -77,11 +77,20 @@ jobs:
 
       # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        ls -lh
         docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION -o $DOCKER_CONTAINER_NAME.tar
-        ls -lh
         gzip $DOCKER_CONTAINER_NAME.tar
-        ls -lh
+    - name: Send to serv
+      env:
+        SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
+        SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
+        SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+        DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
+
+      # if: github.ref == 'refs/heads/master' && job.status == 'success'
+      run: |
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
     - name: Start on serv
       env:
