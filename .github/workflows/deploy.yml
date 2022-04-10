@@ -65,30 +65,25 @@ jobs:
         mkdir "$HOME/.ssh"
         echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
-    - name: Test with pytest
+    - name: Create locally, send to serv
+      env:
+        SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
+        SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
+        SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+        DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
+
+      # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        python -m unittest tests/test_app.py
-#    - name: Create locally, send to serv
-#      env:
-#        SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
-#        SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
-#        SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
-#        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-#        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-#        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-#        DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
-#
-#      # if: github.ref == 'refs/heads/master' && job.status == 'success'
-#      run: |
-#        ls -lh
-#        docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION -o $DOCKER_CONTAINER_NAME.tar
-#        ls -lh
-#        gzip $DOCKER_CONTAINER_NAME.tar
-#        ls -lh
-##        python ./src/test11.py SERVER_SSH_USER SERVER_ADDRES DOCKER_USER DOCKER_CONTAINER_NAME
-#        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r \
-#             -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz \
-#             $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
+        ls -lh
+        docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION -o $DOCKER_CONTAINER_NAME.tar
+        ls -lh
+        gzip $DOCKER_CONTAINER_NAME.tar
+        ls -lh
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
+#        python ./src/test11.py SERVER_SSH_USER SERVER_ADDRES DOCKER_USER DOCKER_CONTAINER_NAME
 #        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "cd dockers; ./restart.sh"
 #    - name: Start on serv
 #      env:
