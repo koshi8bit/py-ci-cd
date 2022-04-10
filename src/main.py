@@ -13,7 +13,7 @@ def index():
 
 @app.route("/api/v1/foo")
 def api_v1_foo():
-    return "bar SEXY"
+    return "bar SEXY 2"
 
 
 if __name__ == '__main__':
