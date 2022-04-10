@@ -1,5 +1,5 @@
 import os
-a = ['SERVER_SSH_PRIV_KEY', 'SERVER_SSH_USER', 'SERVER_ADDRES']
+a = ['SERVER_SSH_PRIV_KEY', 'SERVER_SSH_USER', 'SERVER_ADDRES', 'DOCKER_UER', 'DOCKER_CONTAINER_NAME']
 # exit()
 sep = "\n"
 for b in a:
