@@ -5,8 +5,9 @@ WORKDIR /usr/src/app/
 
 COPY ./src /usr/src/app/
 COPY ./requirements.txt /usr/src/app/
+
 RUN pip install -r requirements.txt
 
-EXPOSE 8080
+EXPOSE 5000
 
 CMD ["python", "main.py"]
