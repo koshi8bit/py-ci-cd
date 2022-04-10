@@ -82,6 +82,7 @@ jobs:
         SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
       # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
+        echo "######### 0"
         echo "$PWD"
         ls -a
         echo "######### 1"

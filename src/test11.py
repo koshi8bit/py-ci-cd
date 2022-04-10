@@ -1,6 +1,6 @@
 import os
 a = ['SERVER_SSH_PRIV_KEY', 'SERVER_SSH_USER', 'SERVER_ADDRES']
-exit()
+# exit()
 sep = "\n"
 for b in a:
     val = os.environ[b]
