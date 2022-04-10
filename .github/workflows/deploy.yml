@@ -43,7 +43,8 @@ jobs:
         DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
         DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      # if: github.ref == 'refs/heads/master' && job.status == 'success'
+      if: job.status == 'success'
+#      if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION .
 #    - name: Docker push

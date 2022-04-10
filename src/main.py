@@ -13,6 +13,8 @@ def index():
 
 @app.route("/api/v1/foo")
 def api_v1_foo():
+    l = "13"
+    print(l)
     return "bar SEXY 777"
 
 
