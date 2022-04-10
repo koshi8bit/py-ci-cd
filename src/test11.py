@@ -1,9 +1,10 @@
 import os
-a = ['SERVER_SSH_PRIV_KEY', 'SERVER_SSH_USER', 'SERVER_ADDRES']
+# a = ['SERVER_SSH_PRIV_KEY', 'SERVER_SSH_USER', 'SERVER_ADDRES']
+a = ['path', 'SERVER_SSH_USER', 'SERVER_ADDRES']
 # exit()
 sep = "\n"
 for b in a:
-    print(f"\n{b}\n")
+    print(f"\n{b}")
     val = os.environ[b]
     if sep in val:
         lines = val.split(sep)

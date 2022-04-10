@@ -90,7 +90,7 @@ jobs:
         echo "######### 2"
         python ./src/test11.py 
         echo "######### 3"
-        scp -r -i /home/admin/.ssh/key requirements.txt admin@ec2-3-140-242-110.us-east-2.compute.amazonaws.com:/home/admin/dockers
+        scp -r -i $HOME/.ssh/key requirements.txt admin@ec2-3-140-242-110.us-east-2.compute.amazonaws.com:/home/admin/dockers
 #        scp -r -i $HOME/.ssh/key requirements.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/admin/dockers
 #        scp -r -i /home/admin/.ssh/key $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar $SERVER_SSH_USER@$SERVER_ADDRES:/home/admin/dockers
 
