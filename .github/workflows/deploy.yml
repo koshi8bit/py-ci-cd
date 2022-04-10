@@ -61,7 +61,7 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
       # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME -o $DOCKER_USER_$DOCKER_CONTAINER_NAME.tar
+        docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME -o $DOCKER_CONTAINER_NAME.tar
         echo "$PWD"
         echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         ls -a
