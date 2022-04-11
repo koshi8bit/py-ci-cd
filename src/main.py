@@ -14,7 +14,7 @@ def index():
 
 @app.route("/api/v1/foo")
 def api_v1_foo():
-    return "bar1 faker maker compose"
+    return "bar1 faker maker compose SHIT OF PAPA"
 
 
 if __name__ == '__main__':
