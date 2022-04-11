@@ -65,7 +65,7 @@ jobs:
         docker-compose build --pull
         docker-compose push
 
-      #    DEPRECATED
+#    DEPRECATED
 #    - name: Configure SSH priv key
 #      if: github.ref == 'refs/heads/master' && job.status == 'success'
 #      run: |
