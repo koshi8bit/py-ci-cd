@@ -88,6 +88,8 @@ jobs:
       run: |
         GIT_BRANCH_NAME=kk
         RUN_CONTAINER_NAME=${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH_NAME}:latest
+        echo "$RUN_CONTAINER_NAME" > 1.txt
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key 1.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso       
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
         -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
         "docker pull $RUN_CONTAINER_NAME; "\
