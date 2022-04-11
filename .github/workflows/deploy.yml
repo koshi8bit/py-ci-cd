@@ -56,15 +56,19 @@ jobs:
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
         CONTAINER_NAME=${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}
-        echo $CONTAINER_NAME
         docker build -t $CONTAINER_NAME .
 #        docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION .
 
-    - name: Create locally
-      #if: github.ref == 'refs/heads/master' && job.status == 'success'
+    - name: Docker push
+      # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION -o $DOCKER_CONTAINER_NAME.tar
-        gzip $DOCKER_CONTAINER_NAME.tar
+        docker login -u $DOCKER_USER -p $DOCKER_PASS
+        docker push $CONTAINER_NAME
+#    - name: Create locally
+#      #if: github.ref == 'refs/heads/master' && job.status == 'success'
+#      run: |
+#        docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION -o $DOCKER_CONTAINER_NAME.tar
+#        gzip $DOCKER_CONTAINER_NAME.tar
 
     - name: Configure SSH priv key
       #if: github.ref == 'refs/heads/master' && job.status == 'success'
@@ -74,15 +78,16 @@ jobs:
         echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
 
-    - name: Send to serv
-      #if: github.ref == 'refs/heads/master' && job.status == 'success'
-      run: |
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
+#    - name: Send to serv
+#      #if: github.ref == 'refs/heads/master' && job.status == 'success'
+#      run: |
+#        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
 
-    - name: Start on serv
-      #if: github.ref == 'refs/heads/master' && job.status == 'success'
-      run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
+#    - name: Start on serv
+#      #if: github.ref == 'refs/heads/master' && job.status == 'success'
+#      run: |
+#        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker pull koshi8bit/back_automatic_build-kk:latest; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
+##        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
 
     - name: Delete SSH priv key
       #if: github.ref == 'refs/heads/master' && job.status == 'success'
