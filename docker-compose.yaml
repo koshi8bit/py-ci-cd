@@ -3,5 +3,6 @@ services:
   back:
     container_name: back
     image: ${DOCKER_CONTAINER_NAME_FULL}
+    build: ./
     ports:
       - "5000:5000"

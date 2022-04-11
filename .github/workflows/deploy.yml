@@ -57,13 +57,15 @@ jobs:
       run: |
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
-        DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
+        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
 
         docker login -u $DOCKER_USER -p $DOCKER_PASS
-        docker build -t $DOCKER_CONTAINER_NAME_FULL .
-        docker push $DOCKER_CONTAINER_NAME_FULL
+#        docker build -t $DOCKER_CONTAINER_NAME_FULL .
+#        docker push $DOCKER_CONTAINER_NAME_FULL
+        docker-compose build --pull
+        docker-compose push
 
-#    DEPRECATED
+      #    DEPRECATED
 #    - name: Configure SSH priv key
 #      if: github.ref == 'refs/heads/master' && job.status == 'success'
 #      run: |
@@ -95,7 +97,7 @@ jobs:
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" up -d
 
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_SSH_USER@$SERVER_ADDRES \
-        "ls -la "\
+        "ls -la; "\
         "echo \"remote ssh works great\""
 
     - name: Finishing
