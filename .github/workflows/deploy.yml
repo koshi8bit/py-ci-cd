@@ -67,16 +67,17 @@ jobs:
         mkdir "$HOME/.ssh"
         echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
-    - name: Start on serv
-#      #if: github.ref == 'refs/heads/master' && job.status == 'success'
-      run: |
-#        echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-        -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
-        "docker pull $DOCKER_CONTAINER_NAME_FULL; "\
-        "docker run -p 5000:5000 -d --name back $DOCKER_CONTAINER_NAME_FULL"
-#        "docker stop back && docker rm back; "\
-##        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
+
+#    - name: Start on serv
+##      #if: github.ref == 'refs/heads/master' && job.status == 'success'
+#      run: |
+##        echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
+#        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+#        -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
+#        "docker pull $DOCKER_CONTAINER_NAME_FULL; "\
+#        "docker run -p 5000:5000 -d --name back $DOCKER_CONTAINER_NAME_FULL"
+##        "docker stop back && docker rm back; "\
+###        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
 
     - name: Delete SSH priv key
       #if: github.ref == 'refs/heads/master' && job.status == 'success'
