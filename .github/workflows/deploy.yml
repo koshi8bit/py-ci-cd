@@ -57,11 +57,11 @@ jobs:
         mkdir "$HOME/.ssh"
         echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
-        echo #########
+        echo 111111111111111111
         echo $GIT_BRANCH
-        echo #########
+        echo 111111111111111111
         echo $($GIT_BRANCH)
-        echo #########
+        echo 111111111111111111
 #        GIT_BRANCH=$(git branch --show-current)
 #        GIT_HASH=$(git log -1 --pretty=format:%h)
 #        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
