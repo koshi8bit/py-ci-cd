@@ -62,7 +62,7 @@ jobs:
         docker-compose build --pull
         docker-compose push
 
-#    DEPRECATED
+#    DEPRECATED BUT USEFUL
 #    - name: Configure SSH priv key
 #      if: github.ref == 'refs/heads/master' && job.status == 'success'
 #      run: |
@@ -95,6 +95,8 @@ jobs:
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_SSH_USER@$SERVER_ADDRES \
         "ls -la; "\
         "echo \"remote ssh works great\""
+        
+        scp -r readme.md $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/
 
     - name: Finishing
       run: |
