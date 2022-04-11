@@ -40,7 +40,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: flake8 Lint
+    - name: Lint flake8
       uses: py-actions/flake8@v2
       with:
         max-line-length: "120"
@@ -86,11 +86,13 @@ jobs:
     - name: Start on serv
 #      #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
+        GIT_BRANCH_NAME=kk
+        RUN_CONTAINER_NAME=${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH_NAME}:latest
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
         -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
-        "docker pull koshi8bit/back_automatic_build-kk:latest; "\
+        "docker pull $RUN_CONTAINER_NAME; "\
         "docker stop back && docker rm back; "\
-        "docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
+        "docker run -p 5000:5000 -d --name back $RUN_CONTAINER_NAME"
 ##        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
 
     - name: Delete SSH priv key
