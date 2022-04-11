@@ -56,6 +56,11 @@ jobs:
     - name: Docker build & push
       #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
+        set -eu
+        mkdir "$HOME/.ssh"
+        echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
+        chmod 600 "$HOME/.ssh/key"
+
         echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso       
 
         docker build -t $CONTAINER_NAME .
