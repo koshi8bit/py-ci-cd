@@ -58,10 +58,8 @@ jobs:
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
         export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
-
+        
         docker login -u $DOCKER_USER -p $DOCKER_PASS
-#        docker build -t $DOCKER_CONTAINER_NAME_FULL .
-#        docker push $DOCKER_CONTAINER_NAME_FULL
         docker-compose build --pull
         docker-compose push
 
