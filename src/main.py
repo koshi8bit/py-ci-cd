@@ -6,6 +6,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     a = "long_line long_line long_line long_line long_line long_line long_line long_line long_line long_line " \
+        "long_line long_line long_line long_line " \
         "long_line long_line long_line long_line long_line "
     print(a)
     return "Hello world"
@@ -13,7 +14,9 @@ def index():
 
 @app.route("/api/v1/foo")
 def api_v1_foo():
-    return "bar SEXY 999 567"
+    line = "asdas"
+    print(line)
+    return "bar SEXY 999 567 123"
 
 
 if __name__ == '__main__':
