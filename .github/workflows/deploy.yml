@@ -93,6 +93,9 @@ jobs:
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" pull
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" up -d
 
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_SSH_USER@$SERVER_ADDRES \
+        "ls -al"
+
 #        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
 #        -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
 #        "docker stop back && docker rm back; "\
