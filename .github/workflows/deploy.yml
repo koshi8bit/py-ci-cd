@@ -2,12 +2,10 @@ name: Tests and deploy
 # https://stackoverflow.com/questions/8466223/reuse-a-block-of-code-in-yaml
 #        echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
 
-on: [push]
-#on:
-#  pull_request:
-#  push:
-#    branches:
-#      - master
+on:
+  push:
+    branches:
+      - master
 
 env:
   SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
@@ -19,7 +17,6 @@ env:
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -53,7 +50,6 @@ jobs:
         python -m unittest tests/test_app.py
 
     - name: Docker build & push
-      #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
@@ -73,7 +69,6 @@ jobs:
 #        chmod 600 "$HOME/.ssh/key"
 
     - name: Start on serv
-#      #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
@@ -99,7 +94,6 @@ jobs:
         "echo \"remote ssh works great\""
 
     - name: Finishing
-      #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         rm -f "$HOME/.ssh/key"
         rm -f debug.txt
