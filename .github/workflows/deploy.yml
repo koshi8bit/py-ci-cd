@@ -83,10 +83,14 @@ jobs:
 #      run: |
 #        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
 
-#    - name: Start on serv
+    - name: Start on serv
 #      #if: github.ref == 'refs/heads/master' && job.status == 'success'
-#      run: |
-#        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker pull koshi8bit/back_automatic_build-kk:latest; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
+      run: |
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+        -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
+        "docker pull koshi8bit/back_automatic_build-kk:latest; "\
+        "docker stop back && docker rm back; "\
+        "docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
 ##        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
 
     - name: Delete SSH priv key
