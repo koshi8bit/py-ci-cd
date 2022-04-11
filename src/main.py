@@ -14,7 +14,7 @@ def index():
 
 @app.route("/api/v1/foo")
 def api_v1_foo():
-    return "bar branch fix"
+    return "bar 7"
 
 
 if __name__ == '__main__':

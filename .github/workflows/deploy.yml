@@ -17,17 +17,10 @@ env:
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
     steps:
-    - name: Fail on fork
-      if: github.repository_owner != 'koshi8bit'
-      run: |
-        echo "Pipe works only on koshi8bit repo"
-        exit 1
     - uses: actions/checkout@v2
-    - run: |
-        git fetch --prune --unshallow
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v1
@@ -49,6 +42,16 @@ jobs:
       run: |
         python -m unittest tests/test_app.py
 
+  build:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Fail on fork
+      if: github.repository_owner != 'koshi8bit'
+      run: |
+        echo "Pipe works only on koshi8bit repo"
+        exit 1
+    - uses: actions/checkout@v2
     - name: Docker build & push
       run: |
         GIT_BRANCH=$(git branch --show-current)

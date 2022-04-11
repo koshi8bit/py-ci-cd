@@ -13,14 +13,9 @@ env:
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
     steps:
-    - name: Fail on fork
-      if: github.repository_owner != 'koshi8bit'
-      run: |
-        echo "Pipe works only on koshi8bit repo"
-        exit 1
     - uses: actions/checkout@v2
     - run: |
         git fetch --prune --unshallow
