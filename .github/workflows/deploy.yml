@@ -8,7 +8,15 @@ on:
       - master
 
 jobs:
+  correct_repository:
+    runs-on: ubuntu-latest
+    steps:
+      - name: fail on fork
+        if: github.repository_owner != 'koshi8bit'
+        run: exit 1
+
   build:
+    needs: correct_repository
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
