@@ -18,17 +18,12 @@ env:
   DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
 
 jobs:
-  correct_repository:
-    runs-on: ubuntu-latest
-    steps:
-      - name: fail on fork
-        if: github.repository_owner != 'koshi8bit'
-        run: exit 1
-
   build:
-    needs: correct_repository
     runs-on: ubuntu-latest
     steps:
+    - name: Fail on fork
+      if: github.repository_owner != 'koshi8bit1'
+      run: exit 1
     - uses: actions/checkout@v2
     - run: |
         git fetch --prune --unshallow
@@ -60,7 +55,7 @@ jobs:
         GIT_HASH=$(git log -1 --pretty=format:%h)
         CONTAINER_NAME=${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}
         echo $CONTAINER_NAME
-        docker build -t CONTAINER_NAME .
+        docker build -t $CONTAINER_NAME .
 #        docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION .
 
     - name: Create locally
