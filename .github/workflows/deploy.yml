@@ -67,7 +67,6 @@ jobs:
         mkdir "$HOME/.ssh"
         echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
-
     - name: Start on serv
 #      #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
