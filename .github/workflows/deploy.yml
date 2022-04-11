@@ -89,4 +89,4 @@ jobs:
       #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         rm "$HOME/.ssh/key"
-        rm debug.txt
+        rm -f debug.txt
