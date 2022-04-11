@@ -15,6 +15,7 @@ env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+  GIT_BRANCH: $(git branch --show-current)
 
 jobs:
   build:
@@ -57,10 +58,12 @@ jobs:
         echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
         
-        GIT_BRANCH=$(git branch --show-current)
-        GIT_HASH=$(git log -1 --pretty=format:%h)
-        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
-        echo $DOCKER_CONTAINER_NAME_FULL
+#        GIT_BRANCH=$(git branch --show-current)
+#        GIT_HASH=$(git log -1 --pretty=format:%h)
+#        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
+#        echo $DOCKER_CONTAINER_NAME_FULL
+        echo $GIT_BRANCH
+        echo $($GIT_BRANCH)
 
 
     - name: Docker build & push
