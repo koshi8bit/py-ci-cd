@@ -59,7 +59,7 @@ jobs:
         
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
-        ${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH} >> $DOCKER_CONTAINER_NAME_FULL
+        ${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH} > $DOCKER_CONTAINER_NAME_FULL
 
 
     - name: Docker build & push
