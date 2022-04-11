@@ -7,6 +7,8 @@ on: [push]
 #    branches:
 #      - master
 
+
+
 env:
   SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
   SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
@@ -15,9 +17,9 @@ env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-  TEST_ENV_2: ${{ env1.AAA }}
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -57,29 +59,26 @@ jobs:
         mkdir "$HOME/.ssh"
         echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
-        echo 111111111111111111 $TEST_ENV_2 22
-        echo $GIT_BRANCH $($GIT_BRANCH)
-        echo 111111111111111111
-        echo $DOCKER_CONTAINER_NAME_FULL2 $($DOCKER_CONTAINER_NAME_FULL2)
-        echo 111111111111111111
-#        GIT_BRANCH=$(git branch --show-current)
-#        GIT_HASH=$(git log -1 --pretty=format:%h)
-#        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
-#        echo $DOCKER_CONTAINER_NAME_FULL
-
 
     - name: Docker build & push
       #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        echo $DOCKER_CONTAINER_NAME_FULL
+        GIT_BRANCH=$(git branch --show-current)
+        GIT_HASH=$(git log -1 --pretty=format:%h)
+        DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
+
         docker login -u $DOCKER_USER -p $DOCKER_PASS
-        echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
         docker build -t $DOCKER_CONTAINER_NAME_FULL .
         docker push $DOCKER_CONTAINER_NAME_FULL
+#        echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
 
     - name: Start on serv
 #      #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
+        GIT_BRANCH=$(git branch --show-current)
+        GIT_HASH=$(git log -1 --pretty=format:%h)
+        DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
+
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
         -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
         "docker pull $DOCKER_CONTAINER_NAME_FULL; "\
