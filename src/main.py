@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     # if more than 120 symbols len -> Lint fail
-    a = "long_line long_line long_line long_line long_line long_line long_line long_line long_line long_line " \
+    a = "long_line long_line long_line long_line long_line long_line long_line long_line long_line long_line long_line long_line long_line " \
         "long_line long_line long_line long_line long_line "
     print(a)
     return "Hello world"
