@@ -91,8 +91,8 @@ jobs:
         ssh-keyscan -H "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts
         
-        docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" pull
-        docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" up -d
+        docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES_IP" pull
+        docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES_IP" up -d
         
 
 #        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
