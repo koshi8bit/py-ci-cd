@@ -95,7 +95,7 @@ jobs:
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" up -d
 
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_SSH_USER@$SERVER_ADDRES \
-        "ls -l"\
+        "ls -la "\
         "echo \"remote ssh works great\""
 
     - name: Finishing
