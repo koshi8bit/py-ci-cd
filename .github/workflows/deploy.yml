@@ -59,7 +59,7 @@ jobs:
         
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
-        DOCKER_CONTAINER_NAME_FULL=$(echo $DOCKER_USER)/$DOCKER_CONTAINER_NAME-${GIT_BRANCH}:${GIT_HASH}
+        ::set-env DOCKER_CONTAINER_NAME_FULL=$(echo $DOCKER_USER)/$DOCKER_CONTAINER_NAME-${GIT_BRANCH}:${GIT_HASH}
 
 
     - name: Docker build & push
