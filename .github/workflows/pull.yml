@@ -13,7 +13,7 @@ env:
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
     steps:
     - name: Fail on fork
