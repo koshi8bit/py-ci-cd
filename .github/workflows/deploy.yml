@@ -63,7 +63,7 @@ jobs:
       env:
         SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
         SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
-      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         SSH_PRIVATE_KEY="$SERVER_SSH_PRIV_KEY"
         SSH_KNOWN_HOSTS="$SERVER_ADDRES"
@@ -85,7 +85,7 @@ jobs:
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
         DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
         DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
-      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r requirements.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
 #        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
