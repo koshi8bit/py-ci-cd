@@ -15,10 +15,7 @@ env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-  GIT_BRANCH: git branch --show-current
-  GIT_HASH: git log -1 --pretty=format:%h
-  DOCKER_CONTAINER_NAME_FULL: ${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}
-  DOCKER_CONTAINER_NAME_FULL2: ${{ DOCKER_USER }}/${DOCKER_CONTAINER_NAME}
+  TEST_ENV_2: ${{ env2.AAA }}
 
 jobs:
   build:
@@ -60,7 +57,7 @@ jobs:
         mkdir "$HOME/.ssh"
         echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
         chmod 600 "$HOME/.ssh/key"
-        echo 111111111111111111
+        echo 111111111111111111 $TEST_ENV_2 22
         echo $GIT_BRANCH $($GIT_BRANCH)
         echo 111111111111111111
         echo $DOCKER_CONTAINER_NAME_FULL2 $($DOCKER_CONTAINER_NAME_FULL2)
