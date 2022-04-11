@@ -1,11 +1,11 @@
 name: Tests and deploy
 # https://stackoverflow.com/questions/8466223/reuse-a-block-of-code-in-yaml
-# on: [push]
-on:
-  pull_request:
-  push:
-    branches:
-      - master
+on: [push]
+#on:
+#  pull_request:
+#  push:
+#    branches:
+#      - master
 
 env:
   SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
