@@ -78,12 +78,16 @@ jobs:
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
         DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
+        docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" pull
+        docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" up -d
+        
 
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-        -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
-        "docker stop back && docker rm back; "\
-        "docker pull $DOCKER_CONTAINER_NAME_FULL; "\
-        "docker run -p 5000:5000 -d --name back $DOCKER_CONTAINER_NAME_FULL"
+#        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+#        -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
+#        "docker stop back && docker rm back; "\
+#        "docker pull $DOCKER_CONTAINER_NAME_FULL; "\
+#        "docker run -p 5000:5000 -d --name back $DOCKER_CONTAINER_NAME_FULL"
+
 #        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
 
     - name: Delete SSH priv key
