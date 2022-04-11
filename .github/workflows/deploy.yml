@@ -52,13 +52,13 @@ jobs:
 #      run: |
 #        python -m unittest tests/test_app.py
 
-    - name: Configure SSH priv key
-      #if: github.ref == 'refs/heads/master' && job.status == 'success'
-      run: |
-        set -eu
-        mkdir "$HOME/.ssh"
-        echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
-        chmod 600 "$HOME/.ssh/key"
+#    - name: Configure SSH priv key
+#      #if: github.ref == 'refs/heads/master' && job.status == 'success'
+#      run: |
+#        set -eu
+#        mkdir "$HOME/.ssh"
+#        echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
+#        chmod 600 "$HOME/.ssh/key"
 
     - name: Docker build & push
       #if: github.ref == 'refs/heads/master' && job.status == 'success'
