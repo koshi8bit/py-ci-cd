@@ -116,7 +116,8 @@ jobs:
         DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
+#        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
     - name: Start on serv
       env:
         SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
@@ -129,4 +130,5 @@ jobs:
 
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
+#        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
