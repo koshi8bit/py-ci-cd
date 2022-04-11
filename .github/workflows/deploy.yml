@@ -50,20 +50,20 @@ jobs:
       run: |
         python -m unittest tests/test_app.py
 
-    - name: Docker build
+    - name: Docker build & push
       #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
         CONTAINER_NAME=${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}
         docker build -t $CONTAINER_NAME .
-#        docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION .
-
-    - name: Docker push
-      # if: github.ref == 'refs/heads/master' && job.status == 'success'
-      run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker push $CONTAINER_NAME
+#        docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION .
+
+#    - name: Docker push
+#      # if: github.ref == 'refs/heads/master' && job.status == 'success'
+#      run: |
 #    - name: Create locally
 #      #if: github.ref == 'refs/heads/master' && job.status == 'success'
 #      run: |
