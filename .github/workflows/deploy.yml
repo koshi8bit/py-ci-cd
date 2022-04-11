@@ -58,7 +58,7 @@ jobs:
       run: |
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
-        CONTAINER_NAME=$(${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH})
+        CONTAINER_NAME=${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}
         echo $CONTAINER_NAME
         docker build -t CONTAINER_NAME .
 #        docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION .
