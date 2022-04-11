@@ -63,6 +63,7 @@ jobs:
       env:
         SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
         SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
+        SERVER_ADDRES_IP: ${{ secrets.SERVER_ADDRES_IP }}
       # if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         SSH_PRIVATE_KEY="$SERVER_SSH_PRIV_KEY"
