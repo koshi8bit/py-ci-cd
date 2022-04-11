@@ -65,13 +65,13 @@ jobs:
       #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASS
+        echo "$(DOCKER_CONTAINER_NAME_FULL)" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
         docker build -t $DOCKER_CONTAINER_NAME_FULL .
         docker push $DOCKER_CONTAINER_NAME_FULL
 
     - name: Start on serv
 #      #if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
         -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES \
         "docker pull $DOCKER_CONTAINER_NAME_FULL; "\
