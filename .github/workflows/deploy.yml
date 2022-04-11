@@ -85,5 +85,6 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
     - name: Delete SSH priv key
+      if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         rm "$HOME/.ssh/key"
