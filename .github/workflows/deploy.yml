@@ -7,6 +7,16 @@ on:
     branches:
       - master
 
+env:
+  SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
+  SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
+  SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
+  SERVER_ADDRES_IP: ${{ secrets.SERVER_ADDRES_IP }}
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+  DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+  DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
+
 jobs:
   correct_repository:
     runs-on: ubuntu-latest
@@ -33,16 +43,8 @@ jobs:
     - name: flake8 Lint
       uses: py-actions/flake8@v2
       with:
-        # ignore: "F401"
-        # exclude: "src/ignoreme.py"
         max-line-length: "120"
         path: "src"
-#      run: |
-#        pip install flake8
-#        # stop the build if there are Python syntax errors or undefined names
-#        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-#        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-#        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
         python -m unittest tests/test_app.py
@@ -54,16 +56,6 @@ jobs:
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         docker build -t $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION .
-#    - name: Docker push
-#      env:
-#        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-#        DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
-#        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-#        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-#      # if: github.ref == 'refs/heads/master' && job.status == 'success'
-#      run: |
-#        docker login -u $DOCKER_USER -p $DOCKER_PASS
-#        docker push $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION
     - name: Create locally
       env:
         SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
@@ -73,62 +65,26 @@ jobs:
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
         DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
         DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
-
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
         docker save $DOCKER_USER/$DOCKER_CONTAINER_NAME:$DOCKER_CONTAINER_VERSION -o $DOCKER_CONTAINER_NAME.tar
         gzip $DOCKER_CONTAINER_NAME.tar
     - name: Configure SSH priv key
-      env:
-        SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
-        SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        SSH_PRIVATE_KEY="$SERVER_SSH_PRIV_KEY"
-        SSH_KNOWN_HOSTS="$SERVER_ADDRES"
-        test -n "$SSH_PRIVATE_KEY" || ( echo "missing variable SSH_PRIVATE_KEY" && exit 1)
-        test -n "$SSH_KNOWN_HOSTS" || ( echo "missing variable SSH_KNOWN_HOSTS" && exit 1)
-        which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
-        eval $(ssh-agent -s)
-        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-        mkdir -p ~/.ssh
-        chmod 700 ~/.ssh
-        ssh-keyscan -H "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hosts
-
-#    - name: Configure SSH priv key
-#      env:
-#        SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
-#      if: github.ref == 'refs/heads/master' && job.status == 'success'
-#      run: |
-#        set -eu
-#        mkdir "$HOME/.ssh"
-#        echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
-#        chmod 600 "$HOME/.ssh/key"
+        set -eu
+        mkdir "$HOME/.ssh"
+        echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
+        chmod 600 "$HOME/.ssh/key"
     - name: Send to serv
-      env:
-        SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
-        SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
-        SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-        DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-#        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key $DOCKER_CONTAINER_NAME.tar.gz $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
     - name: Start on serv
-      env:
-        SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
-        SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
-        SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-        DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-        DOCKER_CONTAINER_VERSION: ${{ secrets.DOCKER_CONTAINER_VERSION }}
-
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-#        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/key $SERVER_SSH_USER@$SERVER_ADDRES "docker load < ~/dockers/iso/back_automatic_build.tar.gz; docker stop back && docker rm back; docker run -p 5000:5000 -d --name back koshi8bit/back_automatic_build:latest"
+    - name: Delete SSH priv key
+      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      run: |
+        rm "$HOME/.ssh/key"
