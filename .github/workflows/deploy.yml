@@ -15,7 +15,7 @@ env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-  GIT_BRANCH: $(git branch --show-current)
+  GIT_BRANCH: git branch --show-current
 
 jobs:
   build:
