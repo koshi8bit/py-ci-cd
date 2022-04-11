@@ -14,8 +14,8 @@ def index():
 
 @app.route("/api/v1/foo")
 def api_v1_foo():
-    l = "asdas"
-    print(l)
+    line = "asdas"
+    print(line)
     return "bar SEXY 999 567 123"
 
 
