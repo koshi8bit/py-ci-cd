@@ -2,6 +2,6 @@ version: '3'
 services:
   back:
     container_name: back
-    image: ${DOCKER_CONTAINER_NAME_FULL}
+    image: ${DOCKER_CONTAINER_NAME}
     ports:
       - "5000:5000"
