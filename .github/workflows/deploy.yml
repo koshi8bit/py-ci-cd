@@ -43,7 +43,7 @@ jobs:
         python -m unittest tests/test_app.py
 
   deploy:
-    needs: tests
+    needs: build_and_tests
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
