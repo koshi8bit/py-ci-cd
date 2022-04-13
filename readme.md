@@ -25,6 +25,8 @@
 - Запуск docker контейнера на хостинге при помощи `docker-compose` через SSH. Рабочий развернутый проект [на хостинге amazon](http://ec2-18-220-152-128.us-east-2.compute.amazonaws.com:5000/api/v2/foo). Исходный код [тут](src/main.py) **В МОЕМ ПРИМЕРЕ ОТКЛЮЧЁН HTTPS!** 
 - PROFIT!!
 
+Проект и документацию сделал **Лёха К** aka **koshi8bit** 
+
 ## Источники
 - [Actions](https://youtu.be/WTofttoD2xg?t=82)
 - [Docker + Actions](https://youtu.be/09lZdSpeHAk?t=80)
