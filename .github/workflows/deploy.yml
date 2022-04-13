@@ -17,7 +17,7 @@ env:
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
 
 jobs:
-  tests:
+  build_and_tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -42,7 +42,7 @@ jobs:
       run: |
         python -m unittest tests/test_app.py
 
-  build:
+  deploy:
     needs: tests
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
