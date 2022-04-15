@@ -14,7 +14,7 @@ def index():
 
 @app.route("/api/v1/foo")
 def api_v1_foo():
-    return "bar1"
+    return "bar"
 
 
 @app.route("/api/v2/foo")
