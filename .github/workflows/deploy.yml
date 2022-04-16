@@ -59,7 +59,7 @@ jobs:
 
   deploy:
     needs: build_and_tests
-#    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
