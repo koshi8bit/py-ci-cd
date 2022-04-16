@@ -82,7 +82,7 @@ jobs:
         chmod 644 ~/.ssh/known_hosts
 
         DEBUG=$DOCKER_CONTAINER_NAME_FULL
-        DEBUG=$DEBUG $GIT_HASH
+        DEBUG="$DEBUG $GIT_HASH"
         echo "$DEBUG" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:~/
         rm -f debug.txt
         
