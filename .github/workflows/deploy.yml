@@ -76,7 +76,7 @@ jobs:
 
         DEBUG=$DOCKER_CONTAINER_NAME_FULL
         DEBUG="$DEBUG $(git branch -a)"
-        echo "$DEBUG" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:~/
+        echo "$DEBUG" > debug.txt && scp debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:~/
         rm -f debug.txt
         
         docker login -u $DOCKER_USER -p $DOCKER_PASS
