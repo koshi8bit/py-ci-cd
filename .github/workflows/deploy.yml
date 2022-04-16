@@ -81,7 +81,8 @@ jobs:
         
         SCRIPT=.github/workflows/init-ssh.sh
         chmod +x $SCRIPT
-        sh $SCRIPT "$SERVER_SSH_PRIV_KEY" "$SERVER_ADDRES"
+        sh $SCRIPT
+        ssh_init "$SSH_PRIVATE_KEY_DEV" "$DEV_SERVER_IP"
         
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" pull
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" up -d
@@ -90,7 +91,8 @@ jobs:
       run: |
         SCRIPT=.github/workflows/init-ssh.sh
         chmod +x $SCRIPT
-        sh $SCRIPT "$SERVER_SSH_PRIV_KEY" "$SERVER_ADDRES"
+        sh $SCRIPT
+        ssh_init "$SSH_PRIVATE_KEY_DEV" "$DEV_SERVER_IP"
         
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_SSH_USER@$SERVER_ADDRES \
         "ls -la; "\
