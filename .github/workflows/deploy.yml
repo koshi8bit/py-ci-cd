@@ -1,11 +1,11 @@
 name: Tests and deploy
 # echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
-
+# https://stackoverflow.com/questions/68317233/if-or-condition-in-github-actions
 on:
   pull_request:
+    branches: [ master ]
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 env:
   SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
@@ -21,10 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: test env
-      run: |
-        echo aaa $AAA bbb
-
     - name: Set up Python 3.10
       uses: actions/setup-python@v1
       with:
@@ -51,9 +47,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: ENV TEST
-      if: github.ref == 'refs/heads/master'
-
     - name: Docker build & push
       run: |
         GIT_BRANCH=$(git branch --show-current)
@@ -84,7 +77,7 @@ jobs:
         ls -la $SCRIPT
         
         chmod +x $SCRIPT
-        sh $SCRIPT
+        sh $SCRIPT $SERVER_SSH_PRIV_KEY $SERVER_ADDRES
         
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" pull
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" up -d

@@ -1,5 +1,5 @@
-SSH_PRIVATE_KEY="$SERVER_SSH_PRIV_KEY"
-SSH_KNOWN_HOSTS="$SERVER_ADDRES"
+SSH_PRIVATE_KEY="$1"
+SSH_KNOWN_HOSTS="$2"
 test -n "$SSH_PRIVATE_KEY" || ( echo "missing variable SSH_PRIVATE_KEY" && exit 1)
 test -n "$SSH_KNOWN_HOSTS" || ( echo "missing variable SSH_KNOWN_HOSTS" && exit 1)
 which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
