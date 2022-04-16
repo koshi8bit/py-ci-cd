@@ -1,5 +1,4 @@
 name: Tests and deploy
-# echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso
 # https://stackoverflow.com/questions/68317233/if-or-condition-in-github-actions
 on:
   pull_request:
@@ -94,7 +93,7 @@ jobs:
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" pull
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" up -d
         
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_SSH_USER@$SERVER_ADDRES \
+        ssh $SERVER_SSH_USER@$SERVER_ADDRES \
         "ls -la; "\
         "echo \"remote ssh works great\""
         
