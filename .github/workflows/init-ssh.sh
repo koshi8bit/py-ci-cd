@@ -1,3 +1,4 @@
+echo "ssh_init begin"
 SSH_PRIVATE_KEY="$1"
 SSH_KNOWN_HOSTS="$2"
 test -n "$SSH_PRIVATE_KEY" || ( echo "missing variable SSH_PRIVATE_KEY" && exit 1)
@@ -9,3 +10,4 @@ mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 ssh-keyscan -H "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
 chmod 644 ~/.ssh/known_hosts
+
