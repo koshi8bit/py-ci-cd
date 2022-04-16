@@ -17,20 +17,21 @@ env:
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
 
 jobs:
-#  tests:
-#    runs-on: ubuntu-latest
-#    steps:
-#    - uses: actions/checkout@v2
-#    - name: test
-#      run: |
-#        SCRIPT=.github/workflows/init-ssh.sh
-#        echo aaa
-#        ls -la
-#        echo bbb
-#        chmod +x $SCRIPT
-#        echo ccc
-#        ls -la $SCRIPT
-#        echo ddd
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: test
+      run: |
+        SCRIPT=.github/workflows/init-ssh.sh
+        echo aaa
+        ls -la
+        echo bbb
+        chmod +x $SCRIPT
+        echo ccc
+        ls -la $SCRIPT
+        echo ddd        
+        sh $SCRIPT "$SERVER_SSH_PRIV_KEY" "$SERVER_ADDRES"
 
   build_and_tests:
     runs-on: ubuntu-latest
