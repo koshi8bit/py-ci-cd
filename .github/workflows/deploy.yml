@@ -43,8 +43,7 @@ jobs:
         DEBUG="$DEBUG $(git branch -a)"
         echo "$DEBUG" > debug.txt && scp debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:~/
         rm -f debug.txt
-        ssh $SERVER_SSH_USER@$SERVER_ADDRES \
-        "echo \"$DEBUG\" > ~\debug2.txt"
+        ssh $SERVER_SSH_USER@$SERVER_ADDRES "echo '$DEBUG' > debug2.txt"
 
   build_and_tests:
     runs-on: ubuntu-latest
