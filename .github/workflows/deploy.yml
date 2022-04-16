@@ -69,7 +69,9 @@ jobs:
         GIT_HASH=$(git log -1 --pretty=format:%h)
         export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
 #        echo $(echo "$DOCKER_CONTAINER_NAME_FULL" | base64)
-        echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:/home/$SERVER_SSH_USER/dockers/iso; rm -f debug.txt; 
+
+        echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:~/
+        rm -f debug.txt
         
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker-compose build --pull
