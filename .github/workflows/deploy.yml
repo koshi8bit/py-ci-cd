@@ -16,34 +16,13 @@ env:
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: test
-      run: |        
-        GIT_BRANCH=$(git branch --show-current)
-        GIT_HASH=$(git log -1 --pretty=format:%h)
-        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
-        
-        SSH_PRIVATE_KEY="$SERVER_SSH_PRIV_KEY"
-        SSH_KNOWN_HOSTS="$SERVER_ADDRES"
-        test -n "$SSH_PRIVATE_KEY" || ( echo "missing variable SSH_PRIVATE_KEY" && exit 1)
-        test -n "$SSH_KNOWN_HOSTS" || ( echo "missing variable SSH_KNOWN_HOSTS" && exit 1)
-        which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
-        eval $(ssh-agent -s)
-        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-        mkdir -p ~/.ssh
-        chmod 700 ~/.ssh
-        ssh-keyscan -H "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hosts
-        
-        DEBUG=""
-        DEBUG="$DEBUG $DOCKER_CONTAINER_NAME_FULL"
-        DEBUG="$DEBUG $(git branch -a)"
-        echo "$DEBUG" > debug.txt && scp debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:~/
-        rm -f debug.txt
-        ssh $SERVER_SSH_USER@$SERVER_ADDRES "echo '$DEBUG' > ~/debug2.txt"
+#  tests:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: test
+#      run: |
+#        GIT_BRANCH=$(git branch --show-current)
 
   build_and_tests:
     runs-on: ubuntu-latest
@@ -115,12 +94,4 @@ jobs:
         DEBUG=""
         DEBUG="$DEBUG $DOCKER_CONTAINER_NAME_FULL"
         DEBUG="$DEBUG $(git branch -a)"
-        echo "$DEBUG" > debug.txt && scp debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:~/
-        rm -f debug.txt
-        ssh $SERVER_SSH_USER@$SERVER_ADDRES \
-        "echo \"$DEBUG\" > ~\debug2.txt"
-
-    - name: Finishing
-      run: |
-        rm -f "$HOME/.ssh/key"
-        rm -f debug.txt
+        ssh $SERVER_SSH_USER@$SERVER_ADDRES "echo '$DEBUG' > ~/debug.txt"
