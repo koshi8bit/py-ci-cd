@@ -81,7 +81,9 @@ jobs:
         ssh-keyscan -H "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts
 
-        echo "$DOCKER_CONTAINER_NAME_FULL" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:~/
+        DEBUG=$DOCKER_CONTAINER_NAME_FULL
+        DEBUG=$DEBUG $GIT_HASH
+        echo "$DEBUG" > debug.txt && scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r -i $HOME/.ssh/key debug.txt $SERVER_SSH_USER@$SERVER_ADDRES:~/
         rm -f debug.txt
         
         docker login -u $DOCKER_USER -p $DOCKER_PASS
