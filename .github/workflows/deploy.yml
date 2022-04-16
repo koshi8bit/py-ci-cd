@@ -17,21 +17,21 @@ env:
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: test
-      run: |
-        SCRIPT=.github/workflows/init-ssh.sh
-        echo aaa
-        ls -la
-        echo bbb
-        chmod +x $SCRIPT
-        echo ccc
-        ls -la $SCRIPT
-        echo ddd        
-        sh $SCRIPT "$SERVER_SSH_PRIV_KEY" "$SERVER_ADDRES"
+#  tests:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: test
+#      run: |
+#        SCRIPT=.github/workflows/init-ssh.sh
+#        echo aaa
+#        ls -la
+#        echo bbb
+#        chmod +x $SCRIPT
+#        echo ccc
+#        ls -la $SCRIPT
+#        echo ddd
+#        sh $SCRIPT "$SERVER_SSH_PRIV_KEY" "$SERVER_ADDRES"
 
   build_and_tests:
     runs-on: ubuntu-latest
@@ -73,15 +73,6 @@ jobs:
         docker-compose build --pull
         docker-compose push
 
-#    DEPRECATED BUT USEFUL
-#    - name: Configure SSH priv key
-#      if: github.ref == 'refs/heads/master' && job.status == 'success'
-#      run: |
-#        set -eu
-#        mkdir "$HOME/.ssh"
-#        echo "$SERVER_SSH_PRIV_KEY" > "$HOME/.ssh/key"
-#        chmod 600 "$HOME/.ssh/key"
-
     - name: Start on serv
       run: |
         GIT_BRANCH=$(git branch --show-current)
@@ -89,19 +80,18 @@ jobs:
         export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
         
         SCRIPT=.github/workflows/init-ssh.sh
-        echo aaa
-        ls -la
-        echo bbb
         chmod +x $SCRIPT
-        echo ccc
-        ls -la $SCRIPT
-        echo ddd
-        
         sh $SCRIPT "$SERVER_SSH_PRIV_KEY" "$SERVER_ADDRES"
         
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" pull
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" up -d
 
+    - name: Run script on serv
+      run: |
+        SCRIPT=.github/workflows/init-ssh.sh
+        chmod +x $SCRIPT
+        sh $SCRIPT "$SERVER_SSH_PRIV_KEY" "$SERVER_ADDRES"
+        
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_SSH_USER@$SERVER_ADDRES \
         "ls -la; "\
         "echo \"remote ssh works great\""
