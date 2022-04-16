@@ -43,7 +43,7 @@ jobs:
 
   deploy:
     needs: build_and_tests
-    if: github.ref == 'refs/heads/master'
+#    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -73,10 +73,14 @@ jobs:
         export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
         
         SCRIPT=.github/workflows/init-ssh.sh
+        echo aaa
         ls -la
-        ls -la $SCRIPT
-        
+        echo bbb
         chmod +x $SCRIPT
+        echo ccc
+        ls -la $SCRIPT
+        echo ddd
+        
         sh $SCRIPT $SERVER_SSH_PRIV_KEY $SERVER_ADDRES
         
         docker-compose -H "ssh://$SERVER_SSH_USER@$SERVER_ADDRES" pull
