@@ -72,8 +72,8 @@ jobs:
         GIT_HASH=$(git log -1 --pretty=format:%h)
         export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
         
-        ls -la
         SCRIPT=.github/workflows/init-ssh.sh
+        ls -la
         ls -la $SCRIPT
         
         chmod +x $SCRIPT
