@@ -19,7 +19,7 @@ def api_v1_foo():
 
 @app.route("/api/v2/foo")
 def api_v2_foo():
-    return "sexy bar"
+    return "fancy bar"
 
 
 if __name__ == '__main__':
