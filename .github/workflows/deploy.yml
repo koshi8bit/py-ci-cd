@@ -16,13 +16,13 @@ env:
   DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
 
 jobs:
-#  tests:
-#    runs-on: ubuntu-latest
-#    steps:
-#    - uses: actions/checkout@v2
-#    - name: test
-#      run: |
-#        GIT_BRANCH=$(git branch --show-current)
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: test
+      run: |
+        echo ${{ github.event.repository.name }}
 
   build_and_tests:
     runs-on: ubuntu-latest
