@@ -13,7 +13,7 @@ env:
   SERVER_ADDRES_IP: ${{ secrets.SERVER_ADDRES_IP }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-  DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+  REPO_NAME: ${{ github.event.repository.name }}
 
 jobs:
 #  tests:
@@ -22,7 +22,7 @@ jobs:
 #    - uses: actions/checkout@v2
 #    - name: test
 #      run: |
-#        GIT_BRANCH=$(git branch --show-current)
+#        echo ${{ github.event.repository.name }}
 
   build_and_tests:
     runs-on: ubuntu-latest
@@ -58,7 +58,7 @@ jobs:
       run: |
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
-        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
+        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${REPO_NAME}_${GIT_BRANCH}:${GIT_HASH}"
        
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker-compose build --pull
@@ -68,7 +68,7 @@ jobs:
       run: |
         GIT_BRANCH=$(git branch --show-current)
         GIT_HASH=$(git log -1 --pretty=format:%h)
-        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${DOCKER_CONTAINER_NAME}-${GIT_BRANCH}:${GIT_HASH}"
+        export DOCKER_CONTAINER_NAME_FULL="${DOCKER_USER}/${REPO_NAME}-${GIT_BRANCH}:${GIT_HASH}"
         
         SSH_PRIVATE_KEY="$SERVER_SSH_PRIV_KEY"
         SSH_KNOWN_HOSTS="$SERVER_ADDRES"
