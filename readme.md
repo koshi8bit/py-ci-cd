@@ -28,6 +28,14 @@
 
 Проект и документацию сделал **Лёха К** aka **koshi8bit** 
 
+## Настройка сервера
+Нужно последовательно запустить следующие команды
+```
+sudo apt update && sudo apt upgrade -y
+sudo curl https://get.docker.com -o install.sh && sudo sh install.sh
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+```
 ## Секреты
 Для работы проекта должны быть добавлены секреты. В моем проекте они настраиваются 
 [тут](https://github.com/koshi8bit/py-ci-cd/settings/secrets/actions) (для Вашего проекта адрес будет похожим, 
@@ -35,7 +43,7 @@
 - DOCKER_PASS
 - DOCKER_USER
 - SERVER_ADDRES (IP или доменное имя)
-- SERVER_SSH_PRIV_KEY (файл priv.ppk)
+- SERVER_SSH_PRIV_KEY (файл priv.pem для Amazon AWS)
 - SERVER_SSH_USER
 
 Пока не нашел, как в давать доступ к секретам разным разрабам. Наткнулся на такую "фишку".
