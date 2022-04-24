@@ -10,7 +10,6 @@ env:
   SERVER_SSH_USER: ${{ secrets.SERVER_SSH_USER }}
   SERVER_SSH_PRIV_KEY: ${{ secrets.SERVER_SSH_PRIV_KEY }}
   SERVER_ADDRES: ${{ secrets.SERVER_ADDRES }}
-  SERVER_ADDRES_IP: ${{ secrets.SERVER_ADDRES_IP }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   REPO_NAME: ${{ github.event.repository.name }}
