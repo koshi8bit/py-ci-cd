@@ -22,8 +22,7 @@
 - Отправка архива контейнера на хостинг через csp (устарело, см выше).
 - Подготовка приватного SSH ключа для хостинга из "секретов" гитхаба.
 - В этом пайпе представлены примеры удалённого запуска кода на хостинге и пример передачи файла
-- Запуск docker контейнера на хостинге при помощи `docker-compose` через SSH. Рабочий развернутый проект
-[на хостинге amazon](ec2-3-16-212-40.us-east-2.compute.amazonaws.com:5000/api/v2/foo). Исходный код [тут](src/main.py) **В МОЕМ ПРИМЕРЕ ОТКЛЮЧЁН HTTPS!** 
+- Запуск docker контейнера на хостинге при помощи `docker-compose` через SSH. Рабочий развернутый проект [на хостинге amazon](ec2-3-16-212-40.us-east-2.compute.amazonaws.com:5000/api/v2/foo). Исходный код [тут](src/main.py) **В МОЕМ ПРИМЕРЕ ОТКЛЮЧЁН HTTPS!** 
 - PROFIT!!
 
 Проект и документацию сделал **Лёха К** aka **koshi8bit** 
@@ -32,9 +31,11 @@
 Нужно последовательно запустить следующие команды
 ```
 sudo apt update && sudo apt upgrade -y
-sudo curl https://get.docker.com -o install.sh && sudo sh install.sh
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+sudo curl https://get.docker.com -o install.sh && sudo sh install.sh  # docker
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose  # docker-compose 1
+sudo chmod +x /usr/local/bin/docker-compose # docker-compose 2
+sudo usermod -aG docker ${USER} # docker without sudo 1
+exit # yep, u need to logout; docker without sudo 2
 ```
 ## Секреты
 Для работы проекта должны быть добавлены секреты. В моем проекте они настраиваются 
